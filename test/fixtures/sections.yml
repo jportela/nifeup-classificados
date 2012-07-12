@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+compra:
+  id: 1
+  name: Compra
+
+venda:
+  id: 2
+  name: Venda
+  
+aluguer:
+  id: 3
+  name: Aluguer
+  
+emprego:
+  id: 4
+  name: Emprego

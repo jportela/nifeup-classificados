@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+uva:
+  id: 1
+  username: ei07070
+  admin: true
+  blocked_until: nil
+
+ray:
+  id: 2
+  username: ei07061
+  admin: false
+  blocked_until: nil
+  
+grelhas:
+  id: 3
+  username: ei07057
+  admin: false
+  blocked_until: nil
+
+vashu:
+  id: 4
+  username: ei07126
+  admin: false
+  blocked_until: nil

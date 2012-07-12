@@ -1,0 +1,18 @@
+<div id="comment_container_<%= c.id %>">
+<p><span class="label"><%= c.user.name %> (<%= c.user.username %>)</span><%= simple_format(c.content)  %>
+	<abbr class="label_date" title="<%=l c.created_at %>"><%=t 'date_distance', :date => distance_of_time_in_words(c.created_at, Time.now) %></abbr> 
+	
+	<span class="fe_ad_comments_actions">
+	<% if logged_user && (logged_user.id == c.user.id || logged_user.admin) %>
+		<%= link_to  I18n.t('delete'), c, confirm: I18n.t('confirm_delete'), method: :delete, :class => 'delete_comment_button', :remote => true %>
+	<% end %>
+	<% if logged_user %>
+    		<% if c.user_reported?(logged_user.id) %>
+        		<span class="fe_ad_comments_action"> <%=t "already_reported" %> </span>
+    		<% else %>
+        		<%= link_to I18n.t('report'), { :controller => 'reports', :action => "new"}, { :id => "fe_comment_report_#{c.id}", :class => "fe_ad_comments_action fe_comment_report_action", "data-id" => c.id} %>
+    		<% end %>
+	<% end %>
+	</span>
+</p>
+</div>

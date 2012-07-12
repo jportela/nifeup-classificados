@@ -1,0 +1,33 @@
+<h1>Listing ads</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Closed</th>
+    <th>Thumbnail</th>
+    <th>Description</th>
+    <th>User</th>
+    <th>Section</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ads.each do |ad| %>
+  <tr>
+    <td><%= ad.title %></td>
+    <td><%= ad.closed %></td>
+    <td><%= image_tag ad.thumbnail.url(:thumb) %></td>
+    <td><%= ad.description %></td>
+    <td><%= ad.user %></td>
+    <td><%= ad.section %></td>
+    <td><%= link_to 'Show', ad %></td>
+    <td><%= link_to 'Edit', edit_ad_path(ad) %></td>
+    <td><%= link_to 'Destroy', ad, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ad', new_ad_path %>

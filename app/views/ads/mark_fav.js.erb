@@ -1,0 +1,4 @@
+m = $('#favorite_<%= @ad.id %>');
+m.replaceWith('<%= link_to image_tag('fav_marked.png', 'data-initial' => 'fav_marked.png', 'data-next' => 'fav_marked.png'), unmark_fav_ad_path(@ad.id), { :remote => true, :id => "favorite_#{@ad.id}" } %>');
+$.jGrowl("<%= @notice %>");
+

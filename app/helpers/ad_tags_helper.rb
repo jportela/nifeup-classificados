@@ -1,0 +1,2 @@
+module AdTagsHelper
+end

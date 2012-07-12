@@ -1,0 +1,19 @@
+// Place all the styles related to the Resources controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.fields.file {
+    float: left;
+    padding: 5px;
+}
+
+.resource_thumbnail {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 10px;
+    float: left;
+    font-size: 5em;
+    text-align: center;
+    line-height: 200px;
+}

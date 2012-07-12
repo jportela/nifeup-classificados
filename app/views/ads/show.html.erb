@@ -1,0 +1,308 @@
+<%= javascript_include_tag 'jquery.prettyPhoto' %>
+<%= stylesheet_link_tag 'prettyPhoto/prettyPhoto' %>
+
+<%= javascript_include_tag 'jquery.tools.min' %>
+<%= stylesheet_link_tag 'scrollable-horizontal' %>
+<%= stylesheet_link_tag 'scrollable-buttons' %>
+
+<%= javascript_include_tag 'jquery.raty.min' %>
+
+<%= javascript_include_tag 'jquery.tagsinput.min' %>
+<%= stylesheet_link_tag 'jquery.tagsinput' %>
+
+
+<%= javascript_tag do -%>
+    $(document).ready(function() {
+        $("a[rel^='prettyPhoto']").prettyPhoto({
+		    theme: 'facebook',
+		    social_tools: '',
+		    show_title: false,
+		    deeplinking: false,
+		    allow_resize: true});
+		  
+		    <% if @user %>
+			    <% if @ad.user_id == @user.id %>
+		  
+  		      AdShow.editTitlePath = "<%= edit_title_ad_path(@ad) %>";
+  		      AdShow.editDescriptionPath = "<%= edit_description_ad_path(@ad) %>";
+  		      AdShow.tagsAutocompletePath = "<%= all_ad_tags_path %>.json";
+  		      AdShow.editTagsPath = "<%= edit_tags_ad_path(@ad) %>"
+  		      AdShow.addTagText = "<%=t "ad.add_tag" %>";
+		  
+		        AdShow.makeEditable();
+		        
+		        AdShow.prepareGalleryManager($("#gallery_manager_link"));
+		        
+		        $('#gallery_manager_dialog').dialog({
+            	autoOpen: false,
+            	title: '<%=t "ad.gallery_manager" %>',
+            	modal: true,
+            	width: "90%"
+            });
+            
+		    <% elsif @ad.partner and @ad.partner.id == @user.id and not @ad.final_eval %>		      
+		      $('#rate_owner_dialog').dialog({
+          	autoOpen: false,
+          	modal: true,
+          	title: "<%=escape_javascript I18n.t('ad.rate_owner') %>",
+          	
+          	buttons: [
+                {
+                    text: "Ok",
+                    click: function() { 
+                      var r = $("#owner_rating").raty('score');
+                      $.post("<%= rate_owner_ad_path(@ad) %>.json", {rate: r}, function(data) {
+                        $.jGrowl(data["notice"]);
+                        $(this).dialog("close");
+                        return false;
+                      } );
+                    }
+                }
+            ]
+          	
+          });
+          
+          $('#owner_rating').raty({
+            start: 0,  
+            path: "../assets/raty/"
+          });
+          
+          AdShow.prepareRateOwner();
+          
+		    <% end %>
+		  <% end %>
+		  
+	    $(".scrollable").scrollable();
+	    
+	    $('#user_rating').raty({
+        start: <%= @ad.user.rate ? @ad.user.rate : 0 %>,  
+        readOnly: true,
+        path: "../assets/raty/"
+      });
+	    
+	    $('#ad_rating').raty({
+	          <% if @user %>
+	            start: <%= @ad.user_rating(@user.id) ? @ad.user_rating(@user.id) : 0 %>,
+	            click: function(score, evt) {
+		              $.post('<%= rate_ad_path(@ad.id) %>', { id: <%= @ad.id %>, rating: score  }, function(data) {
+		            });
+	            },
+	          <% else %>
+	            readOnly: true,
+	            start: <%= @ad.average_rate.to_f %>,
+	          <% end %>
+		        path: "../assets/raty/"
+	        });
+	        
+      <% if @user %>
+
+	        //Close User's Ad
+	        <% if @user.id == @ad.user_id %>
+	            $( '.close_ad' ).click(function() {
+			            $( "#close_ad" ).dialog( "open" );
+	            });
+	            $('#close_ad').dialog({
+		            autoOpen: false,
+		            height: 160,
+		            width: 200,
+		            modal: true
+	            });
+	        <% end %>
+	        
+	        //User's login Autocomplete
+	        $(function() {
+		        $( "#partner" ).autocomplete({
+			        source: '<%= auto_complete_users_path %>',
+			        minLength: 2
+		        });
+            });
+
+
+	        $('.fe_comment_report_action').click(function() {
+	          var id = $(this).data("id");
+	          $("#comment_id").val(id);
+	          $("#report_dialog").dialog("open");
+	          return false; 
+	        });
+
+        <% end %>
+    $("#report_dialog").dialog({ 
+        autoOpen: false,
+        modal: true,
+        buttons: { "<%=t 'report' %>": function() { 
+            $("#new_report").submit();
+            $(this).dialog("close"); 
+            return false;
+            } },
+        width: 400,
+        title: "<%=t 'report' %>"
+        });
+
+
+		$('#fe_ad_comment_textarea').autoResize({
+			minHeight: 36,
+			maxHeight: 200,
+			extraSpace: 18
+		});
+
+	
+	    $('#fe_ad_comment_textarea').keydown(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+                if ($('#fe_ad_comment_textarea').val() != '')
+                {
+                    $('#new_comment').submit();
+                    event.preventDefault();
+                }
+                return false;    	
+            }
+        });
+
+
+    });	
+<% end %>
+<% content_for :title, @ad.title %>
+<div id="single_content">
+<div class="breadcrumbs">
+  <%= render_breadcrumbs %>
+</div>
+<div class="fe_ad_show_container">
+	<div class="fe_ad_presentation_container">
+		<div class="fe_ad_title_container">
+			<div class="fe_ad_show_title">
+			    <div class="editable-section" id="fe_editable_ad_title" data-original="<%= @ad.title %>">
+			      <%= @ad.title %>
+			    </div>
+			  </div>
+			<%= link_to ".." + @ad.thumbnail.url, { :rel => 'prettyPhoto[pp_gal]' } do 
+				image_tag @ad.thumbnail.url(:medium)
+			end %>
+			
+			<div id="gallery_container">
+			  <%= render :partial => "gallery" %>
+			</div>
+		</div>
+		<div class="fe_ad_highlights">
+			<p>
+			    <% if @user %>
+				    <% if @user != nil && @ad.user_id == @user.id %>
+				        <%= link_to image_tag("create_ad_icon.png"), edit_ad_path(@ad), :title => I18n.t('user.edit_ad') %>
+				    <% end %>
+				    
+				    <!--Close the Ad-->
+				    <% if @user.id == @ad.user_id and @ad.open? %> <!--TODO add check for open state--> 
+				      <span class="close_ad link_js" ><%= link_to image_tag("lock_icon.png"), "#", :title => I18n.t('ad.close') %></span>
+				    <% end %>
+				    <% if @user.admin? %>
+				      <%= link_to image_tag("close_icon.png"), close_permanently_ad_path(@ad), {:method => :post, :title => I18n.t('ad.close_permanently')} %>
+				    <% end %>
+			    <% end %>
+			    
+			    <%#--------------- PDF Download -------------%>
+			    <%= link_to image_tag("pdf_icon.png"), ad_path(@ad, :format => 'pdf'), :title => I18n.t('user.pdf_download') %>	        
+			</p>
+			<p>
+				<span class="label"><%= I18n.t('ad.author') %>: </span> 
+				<span class="author_name"><%= @ad.user.name %> (<%= @ad.user.username %>)</span>
+				<span id="user_rating"></span> ( <%= @ad.user.rate_count %> )
+				
+			</p>
+			<p>	
+				<span class="label"><%= I18n.t('ad.date') %>: </span> <abbr title="<%=l @ad.created_at %>"><%=t 'date_distance', :date => distance_of_time_in_words(@ad.created_at, Time.now) %></abbr>
+			</p>				
+			<p id = "pdf_link">
+				<span class="label"><%= I18n.t('ad.tags') %>: </span> 
+				
+				<% if @user %>
+			    <% if @ad.user_id == @user.id %>
+			      <%= text_field_tag "ad_tag_names", @ad.tag_names %>
+			    <% else %>
+				    <div id="ad_tags" class="tagsinput">
+				      <% @ad.ad_tags.each do |t|%>
+				        <span class="tag"><%= link_to t.tag, { :action => 'dashboard', :search_terms => t.tag, :section_id => @ad.section_id } %></span>
+				      <% end %>
+				    </div>
+				  <% end %>
+				<% end %>
+			
+			</p>
+			<div class="fe_ad_share_fb">
+				<a name="fb_share" type="box_count" share_url= "<%=request.url%>"> Share </a> 
+				<script type="text/javascript" src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"> </script>
+			</div>
+			<div class="fe_ad_share_tweet">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical">Tweet</a>
+				<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+			</div>
+			
+			<span id="ad_rating"></span>
+			
+			<span class="average_rating"> <%= @ad.average_rate != nil ? @ad.average_rate.round(1).to_s + "/5" : I18n.t('ad.not_yet_rated') %>  (<%= @ad.evaluations.count %> <%=t "ad.rater" %>) </span>
+			
+			<div id="partner_info">
+			  <% if not @ad.open?  %> <!--TODO add check for open state--> 
+			    <%= label_tag I18n.t('ad.partner'), nil, :class => 'label' %> <% if not @ad.partner.nil? %><%= @ad.partner.name %> (<%=@ad.partner.username %>)<% else %><%= I18n.t('ad.no_partner') %><% end %>
+			  <% end %>
+			</div>		
+		</div>
+	</div>
+
+	<%#--------------- Descrição --------------%>
+
+	<div class="fe_ad_show_description">
+	  <div class="label"><%= I18n.t('ad.description') %>:</div>
+	  <div class="editable-section" id="fe_editable_ad_description" data-original="<%= simple_format(@ad.description) %>">
+      <%= simple_format(@ad.description) %>
+    </div>
+	</div>
+	
+	
+	<%#--------------- Comentários --------------%>
+
+	<div class="fe_ad_comments">
+	<% if @ad.comments %>		
+	  	<div class="label"><%= I18n.t('ad.comments') %>:</div>
+	  	<% @ad.comments.each do |c| %>
+			<%= render 'comment', :c => c, :logged_user => @user %>
+	  	<% end %>
+	<% end %>
+	
+	<%# Div que é substituida pelo comentário adicionado %>
+	<div id="new_comment_added"></div>
+	
+	<% if @user %>
+	    <%= form_for(@comment, :remote => true, :url => comments_path) do |f| %>
+           	<%= f.text_area :content, :class => 'fe_ad_comment_textarea', :id => 'fe_ad_comment_textarea',  :placeholder => I18n.t('comment_placeholder') %>
+            <%= f.hidden_field :ad_id, {:value => @ad.id} %>
+		<% end %>
+	<% end %>
+	</div>	
+    
+
+</div>
+
+  <div id="close_ad" title="<%= I18n.t('ad.close') %>" >
+    <%= form_tag(close_ad_path(@ad)) do %>
+        <%= label :partner_lbl, I18n.t('ad.partner') %>
+        <p><%= text_field_tag :partner %></p>
+        <p><%= submit_tag I18n.t('ad.close') %></p>
+    <% end %>
+  </div>
+
+<div id="report_dialog"> 
+    <span class="label"><%=t 'comments.reason_label' %></span>
+    <%= form_tag({:controller => "comments", :action => "report"}, :remote => true, :method => "post", :id => "new_report") do |f| %>
+   	    <%= text_area_tag :reason, "", :size => "48x5" %>
+   	    <%= hidden_field_tag :comment_id %>
+   	<% end %>
+</div>
+
+<% if @user and @ad.partner and @ad.partner.id == @user.id %>
+  <div id="rate_owner_dialog">
+    <%=t "ad.rate_owner_message" %>
+    <div id="owner_rating"> </div>
+  </div>
+<% end %>  
+</div>
+
+</div>

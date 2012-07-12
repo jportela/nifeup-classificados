@@ -1,0 +1,3 @@
+$.jGrowl("<%= @notice %>");
+
+$("#unblock_user_<%= @user.id %>").replaceWith("<%= escape_javascript(link_to(I18n.t('admin.block_user'), admin_block_path, { :id => 'block_user_#{@user.id}', :class => 'block_user_action', 'data-user_id' => @user.id})) %>");

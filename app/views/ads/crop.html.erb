@@ -1,0 +1,44 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag "jquery.Jcrop" %>
+    <%= javascript_include_tag "jquery.Jcrop.min" %>
+    <%= javascript_tag do -%>
+    $(function() {
+      $('#cropbox').Jcrop({
+        onChange: update_crop,
+        onSelect: update_crop,
+        setSelect: [0, 0, 500, 500],
+        aspectRatio: 1
+      });
+    });
+
+    function update_crop(coords) {
+      var rx = 100/coords.w;
+      var ry = 100/coords.h;
+      $('#preview').css({
+        width: Math.round(rx * <%= @ad.thumb_geometry.width %>) + 'px',
+        height: Math.round(ry * <%= @ad.thumb_geometry.height %>) + 'px',
+        marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+        marginTop: '-' + Math.round(ry * coords.y) + 'px'
+      });
+      var ratio = <%= @ad.thumb_geometry(:original).width %> / <%= @ad.thumb_geometry.width %>;
+      $("#crop_x").val(Math.round(coords.x * ratio));
+      $("#crop_y").val(Math.round(coords.y * ratio));
+      $("#crop_w").val(Math.round(coords.w * ratio));
+      $("#crop_h").val(Math.round(coords.h * ratio));
+    }
+    <% end %>
+<% end %>
+
+<%= image_tag @ad.thumbnail.url, :id => "cropbox" %>
+
+<h4><%=t 'ad.preview' %></h4>
+<div style="width:100px; height:100px; overflow:hidden">
+  <%= image_tag @ad.thumbnail.url, :id => "preview" %>
+</div>
+
+<%= form_for @ad do |f| %>
+  <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
+    <%= f.hidden_field attribute, :id => attribute %>
+  <% end %>
+  <p><%= f.submit I18n.t('save') %></p>
+<% end %>

@@ -1,0 +1,15 @@
+<div class="fields file">
+<% if f.object.new_record? %>
+  <span class="file-wrapper">
+    <%= f.file_field :link %><br />
+    <span class="button"><%=t 'choose_file' %></span>
+  </span>
+<% else %>
+  <% if (f.object.link_content_type.slice(0,5).eql?('image')) %>
+    <%= image_tag f.object.link(:gallery) %><br />
+  <% else %>
+    <%= link_to image_tag('pdf.png'), f.object.link.url, :target => '_blank'  %><br />
+  <% end %>
+<% end %>
+<%= link_to_remove_fields I18n.t('remove_file'), f %>
+</div>

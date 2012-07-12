@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Begin:</b>
+  <%= @block_log.begin %>
+</p>
+
+<p>
+  <b>End:</b>
+  <%= @block_log.end %>
+</p>
+
+<p>
+  <b>Reason:</b>
+  <%= @block_log.reason %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @block_log.user %>
+</p>
+
+
+<%= link_to 'Edit', edit_block_log_path(@block_log) %> |
+<%= link_to 'Back', block_logs_path %>

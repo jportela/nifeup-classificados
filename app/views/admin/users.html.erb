@@ -1,0 +1,124 @@
+<%= javascript_tag do -%>
+$(document).ready(function() {
+    /*****************************
+            AJAX Pagination
+    *****************************/
+
+    $(".pagination a").click(function() {
+        var re = /page=([\d]*)/g;
+        var page = re.exec($(this).attr("href"))[1];
+        $.get("<%= url_for :action => 'update_search' %>&page=" + page);
+        return false;
+    });
+    
+    $("#search_text_field").keyup(function() {
+      lastKeyTime = new Date().getTime();
+      var keyTime = lastKeyTime;
+      window.setTimeout(function() {
+        if(keyTime == lastKeyTime) {
+          $("#user_search_container").addClass("loading"); // show the spinner
+          var form = $("#user_search"); // grab the form wrapping the search bar.
+          var formData = form.serialize(); // grab the data in the form  
+          $.get(ajaxSearchUrl, formData, function(html) {
+            $("#user_search_container").removeClass("loading"); // hide the spinner
+          });
+        }
+      }, 500);
+    });
+    
+    
+    /* Dialog for ban user */
+    $('.block_user_action').click(function() {
+      var user_id = $(this).data("user_id");
+      $("#user_id").val(user_id);
+      $("#block_user").dialog("open");
+      return false; 
+    });
+
+    $("#block_user").dialog({ 
+      autoOpen: false,
+		  modal: true,
+      buttons: { "<%=t 'confirm' %>": function() { 
+          $("#new_block").submit();
+          $(this).dialog("close"); 
+          return false;
+          } },
+      width: 400,
+      title: "<%=t 'admin.block_user' %>"
+    });
+    
+    function submitenter(myfield,e)
+	{
+	var keycode;
+	if (window.event) keycode = window.event.keyCode;
+	else if (e) keycode = e.which;
+	else return true;
+
+	if (keycode == 13 && !event.shiftKey)
+	   {
+	   myfield.form.submit();
+	   return false;
+	   }
+	else
+	   return true;
+	}
+
+    
+  });
+<% end %>
+<div id="single_content">
+<div class="breadcrumbs">
+  <%= render_breadcrumbs %>
+</div>
+<h1><%=t "admin.list_users" %></h1>
+<b><%=t "username" %>:</b>
+<div class="user_search_container">
+  <%= form_tag admin_users_path, {:method => :get, :id => "user_search", :class => "user_search"} do %>
+    <%= text_field_tag "search_terms", @search_terms, :id => "search_text_field" %>
+    <%= javascript_tag do -%>
+      var ajaxSearchUrl = "<%= url_for :action => 'update_search' %>";
+    <% end -%>
+  <% end -%>
+</div>
+<div id="users">
+  <% if @users.empty? %>
+	  <p><%=t 'admin.no_users' %></p>
+  <% end %>
+  <% @users.each do |user| %>
+    <div class="user">
+      <b><%= user.name %> (<%= user.username %>)</b>
+      <div class="user_actions">
+        <span class="promotion">
+          <% if not user.admin? %>
+            <%= link_to I18n.t("admin.promote_user"), admin_promote_path(:user_id => user.id), { :remote => true, :id => "promotion_#{user.id}" } %>
+          <% else %>
+            <%= link_to I18n.t("admin.demote_user"), admin_demote_path(:user_id => user.id), { :remote => true, :id => "promotion_#{user.id}" } %>
+          <% end %>
+        </span>
+        
+        <% if (user.blocked_until == nil || user.blocked_until < Time.now) %>
+        <span id="block_user_act">
+            <%= link_to I18n.t('admin.block_user'), admin_block_path, { :id => "block_user_#{user.id}", :class => "block_user_action", "data-user_id" => user.id} %>
+        </span>
+        <% else %>
+            <%= link_to I18n.t('admin.unblock_user'), admin_unblock_path(:user_id => user.id), { :id => "unblock_user_#{user.id}", :class => "unblock_user_action", "data-user_id" => user.id, :remote => true, :title => I18n.t('date_distance_future', :date => distance_of_time_in_words(user.blocked_until, Time.now)) } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="apple_pagination">
+  <%= will_paginate @users %>
+</div>
+
+<div id="block_user"> 
+    <span class="label"><%=t "admin.block_duration" %></span>
+    <%= form_tag(admin_block_path, :remote => true, :method => "post", :id => "new_block") do |f| %>
+   	    <% User.block_durations.each do |k,d| %>
+     	    <%= radio_button_tag :duration, d %><%= d %> <%=t 'time.days' %>
+   	    <% end %>
+   	    <%= hidden_field_tag :user_id %>
+   	<% end %>
+</div>
+</div>
+

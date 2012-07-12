@@ -1,0 +1,18 @@
+$('#gallery_container').html("<%= escape_javascript render(:partial => "gallery") %>");
+
+<% if @successful %>
+    $.jGrowl('<%=t I18n.t("ad.resource_remove.success") %>');
+<% else %>
+    $.jGrowl('<%=t I18n.t("ad.resource_remove.error") %>');
+<% end %>
+
+$(document).ready(function() {
+    $('#resource_thumbnail_<%= @res_id %>').remove();
+    
+    $("a[rel^='prettyPhoto']").prettyPhoto({
+            theme: 'facebook',
+            social_tools: '',
+            show_title: false,
+            deeplinking: false,
+            allow_resize: true});
+});

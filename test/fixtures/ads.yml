@@ -1,0 +1,46 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+a1:
+  id: 1
+  title: O meu primeiro classificado
+  closed: false
+  description: Olá mundo!
+  user_id: 3 # grelhas
+  section_id: 1 # compra
+  created_at: 2011-10-28 17:47:48
+
+a2:
+  id: 2
+  title: Venda de jogos de PS2
+  closed: false
+  description: Vendo 500 jogos de PS2 gravados. Sou de Barcelos.
+  user_id: 1 # uva
+  section_id: 2 # venda
+  created_at: 2011-10-29 17:47:48
+
+a3:
+  id: 3
+  title: T2 perto do Polo Universitario FEUP
+  closed: false
+  description: Alugo T2 perto do Polo Universitário e da FEUP.
+  user_id: 2 # ray
+  section_id: 3 # aluguer
+  created_at: 2011-10-30 17:47:48
+  
+a4:
+  id: 4
+  title: T1 no Porto
+  closed: true
+  description: Este anúncio está fechado.
+  user_id: 3 # grelhas
+  section_id: 3 # aluguer
+  created_at: 2011-10-31 17:47:48
+
+a5:
+  id: 5
+  title: Another ad in english
+  closed: false
+  description: OH YEAH
+  user_id: 3 # grelhas
+  section_id: 2 # venda
+  created_at: 2011-10-27 17:47:48

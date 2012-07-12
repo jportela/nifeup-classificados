@@ -1,0 +1,33 @@
+var dialog = $('#gallery_manager_dialog');
+
+dialog.html('<%= escape_javascript render(:partial => "resource_manager", :locals => {:resources => @resources}) %>');
+		
+dialog.dialog('open');
+
+$(document).ready(function() {
+  $('.upload_button').hover(function() {
+      $(this).addClass("hover");
+    },
+    function() {
+      $(this).removeClass("hover");
+  });
+  $('.upload_button').click(function(){
+      $('#item').click();
+      $('#item').change(function (e) {
+          $('#gallery_manager_dialog').dialog('close');
+          $('#loading').show();
+          $('#add_resource_form').submit();
+      });
+      
+      return true;
+  });
+  
+  AdShow.prepareResourceRemovalDialog('<%= remove_resource_ad_path(@ad) %>', '<%=t "ad.resource_remove.title" %>');
+  
+  $(".remove_button").click(function() {
+    AdShow.resourceId = $(this).data("id");
+    $("#resource_removal_confirmation").dialog("open");
+    return false;
+  });
+  
+});

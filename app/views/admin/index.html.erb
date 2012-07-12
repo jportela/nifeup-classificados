@@ -1,0 +1,12 @@
+<div id="single_content">
+<div class="breadcrumbs">
+  <%= render_breadcrumbs %>
+</div>
+<h1><%=t "admin.title" %></h1>
+<p>
+  <%= link_to I18n.t("admin.reported_comments"), admin_comments_path %>
+</p>
+<p>
+  <%= link_to I18n.t("admin.list_users"), admin_users_path %>
+</p>
+</div>

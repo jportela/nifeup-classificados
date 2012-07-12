@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Tag:</b>
+  <%= @ad_tag.tag %>
+</p>
+
+<p>
+  <b>Ad:</b>
+  <%= @ad_tag.ad %>
+</p>
+
+
+<%= link_to 'Edit', edit_ad_tag_path(@ad_tag) %> |
+<%= link_to 'Back', ad_tags_path %>

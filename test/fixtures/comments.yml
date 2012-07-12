@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+c1:
+  id: 1
+  user_id: 1 # uva
+  ad_id: 2
+  content: Tem o Gran Turismo 4?
+
+c2:
+  id: 2
+  user_id: 2 # ray
+  ad_id: 2
+  content: Os dvds gravados sao Princo. Muito bom
+
+c3:
+  id: 3
+  user_id: 3 # grelhas
+  ad_id: 1
+  content: First!1!!1!

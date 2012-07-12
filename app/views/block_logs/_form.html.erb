@@ -1,0 +1,33 @@
+<%= form_for(@block_log) do |f| %>
+  <% if @block_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@block_log.errors.count, "error") %> prohibited this block_log from being saved:</h2>
+
+      <ul>
+      <% @block_log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :begin %><br />
+    <%= f.datetime_select :begin %>
+  </div>
+  <div class="field">
+    <%= f.label :end %><br />
+    <%= f.datetime_select :end %>
+  </div>
+  <div class="field">
+    <%= f.label :reason %><br />
+    <%= f.text_area :reason %>
+  </div>
+  <div class="field">
+    <%= f.label :user %><br />
+    <%= f.text_field :user %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

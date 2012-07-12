@@ -1,0 +1,32 @@
+<% if session[:username] %>
+<div id="userarea">
+<%=t 'greet_username', :user => session[:username] %>
+[<%= link_to I18n.t('logout'), logout_path %>] 
+<div class="usertoolbox">
+<% if admin? %>
+  <%= link_to image_tag("administration_icon.png"), admin_path, :title => I18n.t('admin.link') %>
+<% end %>
+  <%= link_to image_tag("create_ad_icon.png"), new_ad_path, :title => I18n.t('user.create_ad') %>
+  <%= link_to image_tag("user_ads_icon.png"), ads_users_path, :title => I18n.t('user.ads') %>
+  <%= link_to image_tag("user_favorites_icon.png"), favorites_users_path, :title => I18n.t('user.favorites') %>
+</div>
+</div>
+<% else %>
+<div id="loginbutton">
+  <div id="signbtn">
+    <%= link_to I18n.t('login'), login_path, :class => "btnsignin" %>
+  </div>
+  <div id="frmsignin">
+  <%= form_for :person, :url => authenticate_users_path do |f| %>
+      <p id="puser">
+      <%= f.label :username %><br />
+      <%= f.text_field :username %><br/>
+      <%= f.label :password %><br />
+      <%= f.password_field :password %><br/>
+      <%= f.submit I18n.t('submit'), :id => 'submitbtn' %>
+      </p>
+      <% end -%>
+      <p id="msg"></p>
+  </div>
+</div>
+<% end %>

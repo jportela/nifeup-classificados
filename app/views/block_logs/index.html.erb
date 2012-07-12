@@ -1,0 +1,29 @@
+<h1>Listing block_logs</h1>
+
+<table>
+  <tr>
+    <th>Begin</th>
+    <th>End</th>
+    <th>Reason</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @block_logs.each do |block_log| %>
+  <tr>
+    <td><%= block_log.begin %></td>
+    <td><%= block_log.end %></td>
+    <td><%= block_log.reason %></td>
+    <td><%= block_log.user %></td>
+    <td><%= link_to 'Show', block_log %></td>
+    <td><%= link_to 'Edit', edit_block_log_path(block_log) %></td>
+    <td><%= link_to 'Destroy', block_log, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Block log', new_block_log_path %>

@@ -1,0 +1,4 @@
+m = $('#promotion_<%= @user.id %>');
+m.replaceWith('<%= link_to I18n.t("admin.promote_user"), admin_promote_path(:user_id => @user.id), { :remote => true, :id => "promotion_#{@user.id}" } %>');
+$.jGrowl("<%= @notice %>");
+

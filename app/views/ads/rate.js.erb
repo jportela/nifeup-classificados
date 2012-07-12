@@ -1,0 +1,3 @@
+m = $('#average_rating');
+m.html(' <%= @ad.average_rate.round(1) %> ');
+$.jGrowl("<%= @notice %>");

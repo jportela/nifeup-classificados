@@ -1,0 +1,95 @@
+<%= javascript_include_tag 'jquery.tagsinput.min' %>
+<%= stylesheet_link_tag 'jquery.tagsinput' %>
+
+<%= javascript_tag do -%>
+var SITE = SITE || {};
+
+SITE.fileInputs = function() {
+  var $this = $(this),
+      $val = $this.val(),
+      valArray = $val.split('\\'),
+      newVal = valArray[valArray.length-1],
+      $button = $this.siblings('.button'),
+      $fakeFile = $this.siblings('.file-holder');
+  if(newVal !== '') {
+    $button.text('<%=t 'photo_chosen' %>');
+    if($fakeFile.length === 0) {
+      $button.after('<span class="file-holder">' + newVal + '</span>');
+    } else {
+      $fakeFile.text(newVal);
+    }
+  }
+};
+
+$(document).ready(function() {
+  $('.file-wrapper input[type=file]').bind('change focus click', SITE.fileInputs);
+  
+  //tags input
+  //$('#ad_tag_names').html(""); //clear text inside
+  $('#ad_tag_names').tagsInput({
+    autocomplete_url: '<%= all_ad_tags_path %>.json',
+    autocomplete:{selectFirst:true}
+    
+  });
+  
+});
+<% end %>
+
+<%= form_for @ad, :html => { :multipart => true } do |f| %>
+  <% if @ad.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ad.errors.count, "error") %> prohibited this ad from being saved:</h2>
+
+      <ul>
+      <% @ad.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="fe_ad_show_container">
+    <div class="fe_ad_presentation_container">
+		  <div class="fe_ad_title_container">
+			  <div class="field fe_ad_show_title">
+            <%= f.text_field :title, :placeholder => I18n.t("helpers.label.ad.title") %>
+			  </div>
+
+        <div class="field">
+        <% if not f.object.new_record? %>
+          <%= image_tag @ad.thumbnail.url(:medium) %><br />
+        <% end %>
+
+        <span class="file-wrapper">
+          <%= f.file_field :thumbnail %>
+          <span class="button"><%=t 'choose_file' %></span>
+        </span>
+        <p><%=t 'max_file_size', :size => "512KB" %></p>
+        </div>
+      </div>
+      <div class="fe_ad_highlights">
+        <div class="field">
+          <%= f.label :section %><br />
+          <%= select(:ad, :section_id, Section.all.collect {|c| [ c.name, c.id ] }, {:selected => @ad.section_id}) %>
+        </div>
+        <p>
+          <%= f.label :tag_names %><br />
+          <%= f.text_field :tag_names %>
+        </p>
+        <%= f.fields_for :resources do |builder| %>
+        <%= render "resource_fields", :f => builder %>
+        <% end %>
+        <p><%= link_to_add_fields(I18n.t('add_file'), f, :resources) %></p>
+      </div>
+    </div>
+      
+
+    <div class="field fe_ad_show_description">
+      <%= f.label :description %><br />
+      <%= f.text_area :description %>
+    </div>
+    <div class="actions">      
+      <%= f.submit %>
+    </div>
+  </div>
+<% end %>

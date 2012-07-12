@@ -1,0 +1,43 @@
+obj = $('#dashboard_fe_ad_container');
+html = '';
+<% if @search_terms and not @search_terms.empty? %>
+  html = '<div class="breadcrumbs"> <%= render_breadcrumbs %> </div>';
+<% end %>
+<% if @ads.empty? %>
+	html += '<p><%=t "no_ads_found" %></p>';
+<% else %>  
+  html += '<%= escape_javascript render :partial => 'ad', :collection => @ads, :locals => { :user_id => @user_id } %><br style="clear:both" />';
+<% end %>
+
+obj.html(html);
+
+$(".fe_ad_clickable").click(function() {
+	this.submit();
+});
+
+$('.dashboard_section_tab').removeClass('selected');
+var selected_tab = $('#section_tab_<%= @section_id %>');
+$(selected_tab).addClass('selected');
+
+var bg_colors_array = ["#C0E9F7", "#F0E1E1", "#E2F0DE", "#FDFBD1"];
+
+$(".dashboard_fe_ad_container").css('background-color', bg_colors_array[<%= @section_id %>-1]);
+
+var ajaxSearchUrl = "<%= url_for :action => 'update_search', :section_id => @section_id %>";
+
+$("#section_id").val(<%= @section_id %>);
+
+/*****************************
+        AJAX Pagination
+*****************************/
+
+$(".apple_pagination").html("<%= escape_javascript will_paginate @ads %>");
+
+
+$(".pagination a").click(function() {
+    var re = /page=([\d]*)/g;
+    var page = re.exec($(this).attr("href"))[1];
+    $.get("<%= url_for :action => 'update_search', :section_id => @section_id %>&page=" + page);
+    return false;
+});
+

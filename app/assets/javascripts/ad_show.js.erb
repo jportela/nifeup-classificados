@@ -1,0 +1,147 @@
+var AdShow = AdShow ? AdShow : {
+    editTitlePath : "",
+    editDescriptionPath : "",
+    tagsAutocompletePath : "",
+    editTagsPath : "",
+    addTagText : 'add a tag',
+    resourceId : '0',
+
+    makeEditable : function() {
+        $(".editable-section").hover(
+            function() {  //on hover in
+                $(this).addClass("hover"); 
+            }, 
+            function() {  //on hover out
+                $(this).removeClass("hover"); 
+                $(this).attr("contentEditable", "false"); 
+            });
+        $(".editable-section").addClass("active");
+        AdShow.makeTitleEditable();
+        AdShow.makeDescriptionEditable();
+        AdShow.makeTagsEditable();
+    },
+
+    makeTitleEditable : function() {
+            //editable sections handling
+            $("#fe_editable_ad_title").click(function() {
+                $(this).attr("contentEditable", "true");
+            });
+
+            $("#fe_editable_ad_title").focusout(function() {
+                var original = $.trim($(this).data("original"))
+                var updated = $.trim($(this).html());
+                if (original != updated) {
+                    $.post(AdShow.editTitlePath, 
+                        { title: updated },   //data
+                        function(data) { $.jGrowl(data["message"]); }
+                    );
+                    $(this).data("original", updated);
+                }
+            });
+
+            $('#fe_editable_ad_title').keydown(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){
+                    var original = $.trim($(this).data("original"))
+                    var updated = $.trim($(this).html());
+                    if (original != updated) {
+                        $.post(AdShow.editTitlePath, 
+                            { title: updated },   //data
+                            function(data) { $.jGrowl(data["message"]); }
+                        );
+                        $(this).data("original", updated);
+                    }  
+                    event.preventDefault();
+                    return false;    	
+                }
+
+            });
+
+        },
+        
+        makeDescriptionEditable : function() {
+                //editable sections handling
+                $("#fe_editable_ad_description").click(function() {
+                    $(this).attr("contentEditable", "true");
+                });
+
+                $("#fe_editable_ad_description").focusout(function() {
+                    var original = $.trim($(this).data("original"))
+                    var updated = $.trim($(this).html());
+                    if (original != updated) {
+                        $.post(AdShow.editDescriptionPath, 
+                            { description: updated },   //data
+                            function(data) { $.jGrowl(data["message"]); }
+                        );
+                        $(this).data("original", updated);
+                    }
+                });
+
+            },
+            
+        makeTagsEditable : function() {
+            $('#ad_tag_names').tagsInput({
+              autocomplete_url: AdShow.tagsAutocompletePath,
+              autocomplete:{selectFirst:true},
+              onAddTag: AdShow.onAddTag,
+              onRemoveTag: AdShow.onRemoveTag,
+              defaultText: AdShow.addTagText
+            });
+        },
+        
+        onAddTag : function(tag) {
+            $.post(AdShow.editTagsPath, 
+                { tag_names: $('#ad_tag_names').val() },   //data
+                function(data) { $.jGrowl(data["message"]); }
+            );
+        },
+        
+        
+        onRemoveTag : function(tag) {
+            $.post(AdShow.editTagsPath, 
+                { tag_names: $('#ad_tag_names').val() },   //data
+                function(data) { $.jGrowl(data["message"]); }
+            );
+        },
+        
+        prepareGalleryManager : function(element) {
+            if(AdShow.getAnchor() == "gallery")
+                element.click();
+        },
+        
+        prepareRateOwner : function() {
+            if(AdShow.getAnchor() == "rate_owner")
+                $("#rate_owner_dialog").dialog('open');
+        },
+        
+        getAnchor : function() {
+        	var location = document.location.toString();
+        	if (location.match('#')) {
+        	  	var anchor = location.split('#')[1];
+        		return anchor;
+        	} 	
+        	else {
+        		return null;
+        	}
+        },
+        
+        prepareResourceRemovalDialog : function(removal_url, title_str) {
+            $("#resource_removal_confirmation").dialog({
+        	    resizable: false,
+                height: 160,
+                modal: true,
+                autoOpen: false,
+                title: title_str,
+                buttons: {
+                    "Remover": function() {
+                		$( this ).dialog( "close" );
+                		$.post(removal_url+".js", { "resource_id": AdShow.resourceId});
+                	},
+                	Cancelar: function() {
+                		$( this ).dialog( "close" );
+                	}
+                }
+            });
+        }
+        
+    };

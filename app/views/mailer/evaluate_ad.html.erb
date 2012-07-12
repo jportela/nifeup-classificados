@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1><%=t 'hi' %> <%= @user.username %>,</h1>
+    <p>
+      <%=t 'business_partner_msg' %>
+      <%=t 'ad.title' %>: <%= @ad.title %>
+      <%=t 'ad.author' %>: <%= @ad.user.name %>
+    </p>
+    <p>
+      <%=t 'please_evaluate_url', :url => @url %>.
+    </p>
+    <p><%=t 'greetings' %></p>
+  </body>
+</html>

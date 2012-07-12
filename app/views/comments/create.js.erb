@@ -1,0 +1,4 @@
+m = $('#new_comment_added');
+m.replaceWith('<%= escape_javascript render("ads/comment", :c => @comment, :logged_user => @comment.user) %><div id="new_comment_added"></div>');
+$('#fe_ad_comment_textarea').val('')
+

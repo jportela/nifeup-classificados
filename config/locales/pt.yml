@@ -1,0 +1,218 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+pt:
+  hi: "Olá"
+  site_name: "Classificados FEUP"
+  copyright: "FEUP - Todos os direitos reservados."
+  last_build: "Última actualização: 04/01/2012"
+  hello: "Olá mundo"
+  login: "Entrar"
+  logout: "Sair"
+  submit: "Validar"
+  login_success: "Autenticado com sucesso"
+  login_failure: "As credenciais não estão correctas"
+  logout_success: "Já não está autenticado"
+  greet_username: "Olá, %{user}!"
+  no_ads_found: "Nenhum anúncio encontrado neste filtro!"
+  new_comment: "Novo comentário"
+  delete: "Apagar"
+  created_comment: "Comentário adicionado com sucesso!"
+  deleted_comment: "Comentário removido com sucesso!"
+  comment_placeholder: "Adicionar um comentário.."
+  confirm_delete: "Tem a certeza?"
+  edit: "Editar"
+  save: "Gravar"
+  confirm: "Confirmar"
+  access_denied: "O acesso foi negado por não possuir permissões suficientes!"
+  need_login: "Precisa de estar autenticado no sistema."
+  cancel: "Cancelar"
+  home: "Início"
+  blocked: "bloqueado"
+  generated: "Gerado por"
+
+  report: "Reportar"
+  already_reported: "Reportado!"
+  report_success: "O comentário foi reportado com sucesso!"
+
+  comment: "Comentário"
+  add_file: "Adicionar ficheiro"
+  remove_file: "Remover"
+  date_distance: "Há %{date} atrás."
+  date_distance_future: "Até daqui a %{date}."
+  
+  choose_file: "Escolher ficheiro"
+  photo_chosen: "Ficheiro escolhido"
+  max_file_size: "Tamanho máximo: %{size}"
+  
+  will_paginate:
+      previous_label: "&#8592; Anterior"
+      next_label: "Próximo &#8594;"
+      page_gap: "&hellip;"
+      
+  username: "Nome de utilizador"
+  greetings: "Obrigado pela sua colaboração!"
+  please_evaluate_url: "Por favor, avalie o autor do anúncio aqui %{url}"
+  business_partner_msg: "Foi indicado como parceiro de negócio do seguinte anúncio"
+  
+  ad:
+    success_mark_fav: "Anúncio marcado como favorito."
+    failure_mark_fav: "Não foi possível marcar o anúncio como favorito."
+    success_unmark_fav: "Anúncio removido dos favoritos."
+    failure_unmark_fav: "Não foi possível remover o anúncio dos favoritos."
+    success_rate: "Votação realizada com sucesso."
+    failure_rate: "Não foi possível registar o seu voto."
+    not_yet_rated: "Sem votação."
+    close: "Fechar anúncio"
+    close_permanently: "Fechar permanentemente"
+    closed_ok: "Anúncio fechado com sucesso."
+    closed_permanently_ok: "Anúncio fechado permanentemente com sucesso."
+    partner: "Parceiro de negócio:"
+    no_partner: "Não definido"
+    subject_email_evaluate_ad: "avaliação do parceiro de negócio"
+    author: "Autor"
+    date: "Data"
+    keywords: "Palavras-chave"
+    average: "Média"
+    description: "Descrição"
+    comments: "Comentários"
+    search_for: "Pesquisa:"
+    preview: "Pré-visualização"
+    tags: "Tags"
+    add_tag: "nova tag"
+    gallery_manager: "Gerir galeria"
+    title: "Título"
+    title_updated:
+      success: "Título do anúncio editado com sucesso."
+      error: "Não foi possível gravar o título do anúncio."
+    description_updated:
+      success: "Descrição do anúncio editada com sucesso."
+      error: "Não foi possível gravar a descrição do anúncio."
+    tags_updated:
+      success: "Tags atualizadas com sucesso."
+      error: "Não foi possível atualizar as tags do anúncio."
+    resource_add:
+      success: "Recurso adicionado com sucesso."
+      error: "Erro ao adicionar recurso."
+    resource_remove:
+      title: "Remover recurso"
+      message: "Tem a certeza que quer remover este recurso?"
+      success: "Recurso removido com sucesso."
+      error: "Erro ao remover recurso."
+      
+    rater: "voto"
+    rate_owner: "Avaliar vendedor"
+    rate_owner_message: "Avalie o vendedor com quem fez o negócio:"
+    rated_owner:
+      success: "Vendedor do anúncio avaliado com sucesso."
+      error: "Erro ao avaliar o vendedor do anúncio."
+      
+  admin:
+    link: "Admin"
+    title: "Administração"
+    remove_comment: "Eliminar"
+    ignore_report: "Ignorar"
+    reported_comments: "Comentários reportados"
+    no_comments: "Não há comentários reportados no sistema."
+    commented_by: "Comentado por"
+    commented_in: "em"
+    commented_at: "no dia"
+    comment_content: "Conteúdo:"
+    reported_by: "Reportado por"
+    reported_at: "no dia"
+    reported_reason: "Motivo:"
+    no_users: "Não encontrou utilizadores."
+    list_users: "Listar utilizadores"
+    promote_user: "Promover"
+    demote_user: "Despromover"
+    block_user: "Bloquear"
+    unblock_user: "Desbloquear"
+    block_duration: "Duração da interdição"
+    success_promote_user: "O utilizador %{user} é agora administrador!"
+    unsuccess_promote_user: "Não foi possível promover o utilizador %{user}!"
+    success_demote_user: "O utilizador %{user} deixou de ser administrador!"
+    unsuccess_demote_user: "Não foi possível despromover o utilizador %{user}!"
+    success_block_user: "O utilizador %{user} foi bloqueado!"
+    success_unblock_user: "O utilizador %{user} foi desbloqueado!"
+    unsuccess_block_user: "Não foi possível bloquear o utilizador %{user}!"
+    unsuccess_unblock_user: "Não foi possível desbloquear o utilizador %{user}!"
+  comments:
+    reason_label: "Qual a razão para reportar o comentário?"
+    
+  user:
+    blocked: "Utilizador bloqueado!"
+    ads: "Os seus anúncios"
+    favorites: "Favoritos"
+    create_ad: "Criar anúncio"
+    edit_ad: "Editar anúncio"
+    mark_favorite: "Marcar favorito"
+    unmark_favorite: "Desmarcar favorito"
+    pdf_download: "Exportar para PDF"
+  
+  helpers:
+    submit:
+      ad:
+        create: "Criar anúncio"
+        update: "Editar anúncio"
+    label:
+      ad:
+        title: "Título"
+        section: "Secção"
+        tag_names: "Palavras-chave"
+        link: "Ficheiro"
+        description: "Descrição"      
+  
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %B"
+      long: "%d de %B de %Y"
+      only_day: "%d"
+    day_names: [domingo, segunda, terça, quarta, quinta, sexta, sábado]
+    abbr_day_names: [dom, seg, ter, qua, qui, sex, sáb]
+    month_names: [~, janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro]
+    abbr_month_names: [~, jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez]
+  time:
+    formats:
+      default: "%A, %d de %B de %Y, %H:%Mh"
+      time: "%H:%M hs"
+      short: "%d de %B, %H:%M "
+      long: "%A, %d de %B de %Y, %H:%Mh"
+      only_second: "%S"
+    am:
+    pm:
+    day: "dia"
+    days: "dias"
+  datetime:
+    distance_in_words:
+      half_a_minute: "meio minuto"
+      less_than_x_seconds:
+        one: "menos de 1 segundo"
+        other: "menos de %{count} segundos"
+      x_seconds:
+        one: "1 segundo"
+        other: "%{count} segundos"
+      less_than_x_minutes:
+        one: "menos de um minuto"
+        other: "menos de %{count} minutos"
+      x_minutes:
+        one: "1 minuto"
+        other: "%{count} minutos"
+      about_x_hours:
+        one: "aproximadamente 1 hora"
+        other: "aproximadamente %{count} horas"
+      x_days:
+        one: "1 dia"
+        other: "%{count} dias"
+      about_x_months:
+        one: "aproximadamente 1 mês"
+        other: "aproximadamente %{count} meses"
+      x_months:
+        one: "1 mês"
+        other: "%{count} meses"
+      about_x_years:
+        one: "aproximadamente 1 ano"
+        other: "aproximadamente %{count} anos"
+      over_x_years:
+        one: "mais de 1 ano"
+        other: "mais de %{count} anos"

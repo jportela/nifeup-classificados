@@ -1,0 +1,23 @@
+<%= javascript_tag do -%>
+$(document).ready(function() {
+	$(".fe_ad_clickable").click(function() {
+		this.submit();
+	});
+});
+<% end %>
+<div id="single_content">
+  <div class="breadcrumbs">
+    <%= render_breadcrumbs %>
+  </div>
+<h1><%=t "users.favorites" %></h1>
+<div id="dashboard_fe_ad_container" class="dashboard_fe_ad_container">
+  <% if @ads.empty? %>
+	<p><%=t 'no_ads_found' %></p>
+  <% end %>
+  <%= render :partial => 'ads/ad', :collection => @ads, :locals => { :user_id => @user.id } %>
+  <br style="clear:both" />
+</div>
+<div class="apple_pagination">
+  <%= will_paginate @ads %>
+</div>
+</div>

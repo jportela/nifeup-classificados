@@ -1,0 +1,70 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require_tree . 
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Ruda);
+
+#content {
+    font-family: 'Ruda', sans-serif;
+    position: relative;
+    margin: 2% auto;
+    padding: 10px;
+    padding-bottom: 5px;
+
+	  -moz-border-radius: 15px;
+	  border-radius: 5px;
+	  -moz-box-shadow: 8px 8px 3px #888;
+	  -webkit-box-shadow: 8px 8px 3px #888;
+	  box-shadow: 2px 2px 10px #888;
+	  background-color: white;
+	  width: 948px;
+	
+}
+
+#logo {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+}
+
+#single_content {
+  margin-top: 70px;
+  padding-left: 13px;
+}
+
+.link_js {
+  text-decoration: none;
+  color: #36C;
+  cursor: pointer;
+}
+
+#footer {
+  text-align: center;
+  font-size: 0.8em;
+  color: #666;
+  padding-top: 3px;
+  
+}
+
+#loadingDiv {
+    width:150px;
+    padding: 10px;
+    background: white;
+    text-align: center;
+    -moz-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 8px 8px 3px #888;
+	-webkit-box-shadow: 8px 8px 3px #888;
+	box-shadow: 2px 2px 10px #888;
+    border: 1px solid #ccc;
+    height:80px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin-top:-40px; /* negative half the size of height */
+    margin-left:-75px; /* negative half the size of width */
+}

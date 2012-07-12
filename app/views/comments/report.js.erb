@@ -1,0 +1,3 @@
+$.jGrowl("<%= escape_javascript I18n.t 'report_success' %>");
+
+$("#fe_comment_report_<%= @comment.id %>").replaceWith("<%=t 'already_reported' %>");

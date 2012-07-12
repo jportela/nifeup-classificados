@@ -1,0 +1,41 @@
+obj = $('#users');
+<% if @users.empty? %>
+	obj.html('<p><%=t "admin.no_users" %></p>');
+<% else %>  
+    str = '';
+    <% @users.each do |user| %>
+        str = str + '<div class="user"><b><%= user.name %> (<%= user.username %>)</b>' ;
+        str = str + '<div class="user_actions">';
+        
+        
+        <% if not user.admin? %>
+             str = str + '<span id="promotion"><%= escape_javascript link_to I18n.t("admin.promote_user"), admin_promote_path(:user_id => user.id), { :remote => true, :id => "promotion_#{user.id}" } %></span>';
+        <% else %>
+            str = str + '<span id="promotion"><%= escape_javascript link_to I18n.t("admin.demote_user"), admin_demote_path(:user_id => user.id), { :remote => true, :id => "promotion_#{user.id}" } %></span>';
+        <% end %>
+        
+
+        <% if (user.blocked_until == nil || user.blocked_until < Time.now) %>
+            str = str + '<%= escape_javascript(link_to(I18n.t("admin.block_user"), admin_block_path, { :id => "block_user_#{user.id}", :class => "block_user_action", "data-user_id" => user.id})) %>';
+        <% else %>
+            str = str + '<%= escape_javascript(link_to(I18n.t("admin.unblock_user"), admin_unblock_path(:user_id => user.id), { :id => "unblock_user_#{user.id}", :class => "unblock_user_action", "data-user_id" => user.id, :remote => true, :title => I18n.t("date_distance_future", :date => distance_of_time_in_words(user.blocked_until, Time.now)) } )) %>';
+        <% end %>
+        
+        
+        str = str + '</div></div>\n';
+    <% end %>
+    obj.html(str);
+<% end %>
+
+/*****************************
+        AJAX Pagination
+*****************************/
+$(".apple_pagination").html("<%= escape_javascript will_paginate @users %>");
+
+$(".pagination a").click(function() {
+    var re = /page=([\d]*)/g;
+    var page = re.exec($(this).attr("href"))[1];
+    $.get("<%= url_for :action => 'update_search' %>&page=" + page);
+    return false;
+});
+

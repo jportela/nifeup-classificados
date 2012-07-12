@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+<title> <%=h yield(:title)%> :: Classificados FEUP</title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery-ui-1.8.16.custom.min" %>
+  <%= javascript_include_tag "jquery.qtip.min" %>
+  <%= stylesheet_link_tag    "jquery.qtip.min" %>
+  <%= stylesheet_link_tag    "smoothness/jquery-ui-1.8.16.custom" %>
+  <%= javascript_include_tag "jquery.jgrowl" %>
+  <%= yield(:head) %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% if notice %>
+	<%= javascript_tag "$.jGrowl(\"" + notice + "\")" %>
+<% end -%>
+
+<div id="content">
+  <div id="logo">
+    <%= link_to image_tag("logo3.png"), root_path %>
+  </div>
+  <%= render 'users/login' %>
+  <%= yield %>
+  <div id="footer">
+   <%=t "copyright" %>
+   <%=t "last_build" %>
+  </div>
+</div>
+
+<div id="loading" style="display: none">
+  <div class="ui-overlay" style="width: 100%; height: 100%;">
+    <div class="ui-widget-overlay"></div>
+    <div class="ui-widget-shadow ui-corner-all"></div>
+  </div>
+
+  <div class="ui-widget-overlay"></div>
+
+  <div id="loadingDiv">
+    <%= image_tag ("loading.gif") %>
+    <p>Loading...</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<%= javascript_include_tag "dashboard" %>
+
+<%= javascript_tag do -%>
+$(document).ready(function() {
+	$(".fe_ad_clickable").click(function() {
+		this.submit();
+	});
+    /*****************************
+            AJAX Pagination
+    *****************************/
+
+    $(".pagination a").click(function() {
+        var re = /page=([\d]*)/g;
+        var page = re.exec($(this).attr("href"))[1];
+        $.get("<%= url_for :action => 'update_search', :section_id => @section_id %>&page=" + page);
+        return false;
+    });
+});
+<% end %>
+
+<% content_for :title, 'dashboard' %>
+
+<div class="dashboard_search">
+<div class="dashboard_search_container">
+	
+  <%= form_tag dashboard_ads_path, {:method => :get, :id => "fe_ad_search", :class => "fe_ad_search"} do %>
+    <%= text_field_tag "search_terms", @search_terms, :id => "search_text_field" %>
+    <%= javascript_tag do -%>
+      var ajaxSearchUrl = "<%= url_for :action => 'update_search', :section_id => @section_id %>";
+    <% end -%>
+	<%= hidden_field_tag 'section_id', @section_id %>
+
+    <%= submit_tag "Go", :id => 'search_button' %>
+	<div class="dashboard_sections">
+		<% @sections.each do |section| %>
+			<div id="section_tab_<%= section.id %>" class="dashboard_section_tab" 
+				 data-action="<%= url_for :action => 'update_section', :section_id => section.id, :search_terms => @search_terms %>">
+				<%= section.name %>
+			</div>
+		<% end -%>
+	</div>
+  <% end -%>
+</div><!--end dashboard search div -->
+</div>
+<div id="dashboard_fe_ad_container" class="dashboard_fe_ad_container">
+  <% if @search_terms and not @search_terms.empty? %>
+  <div class="breadcrumbs">
+    <%= render_breadcrumbs %>
+  </div>
+  <% end %>
+  
+  <% if @ads.empty? %>
+    <p><%=t 'no_ads_found' %></p>
+  <% end %>
+  <%= render :partial => 'ad', :collection => @ads, :locals => { :user_id => @user_id } %>
+  <br style="clear:both" />
+</div>
+<div class="apple_pagination">
+  <%= will_paginate @ads %>
+</div>
+

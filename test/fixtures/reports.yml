@@ -1,0 +1,6 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+r31:
+  comment_id: 3
+  user_id: 1
+  reason: Comentario inutil, nao traz informacao nova

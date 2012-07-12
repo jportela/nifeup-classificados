@@ -1,0 +1,19 @@
+
+<%= render :partial => "resources/resource", :collection => resources %>
+
+<div class="resource_thumbnail upload_button">
+    +
+</div>
+
+<div style="visibility:hidden">
+  <%= form_tag(add_resource_ad_path(@ad), :multipart => true, :id => "add_resource_form" ) do %>
+    <%= file_field_tag 'item', :accept => 'image/png,image/jpeg' %>
+  <% end %>
+</div>
+
+<div style="display:none" id="resource_removal_confirmation">
+  <p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    <%=t "ad.resource_remove.message" %>
+  </p>
+</div>

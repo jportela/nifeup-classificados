@@ -1,0 +1,29 @@
+body {
+   background-color: #FFF;
+   text-align: justify;	
+}
+
+#container {
+   width: auto;
+   margin: 0;
+   padding: 0;
+   border: none;
+}
+
+#line_items {
+   page-break-before: always;
+}
+
+#pdf_link,#report_dialog {
+   display: none;
+}
+
+.fe_ad_comments,.fe_ad_share_fb,.fe_ad_share_tweet{
+	display:none;
+}
+
+.label{
+	text-transform: uppercase;
+}
+
+

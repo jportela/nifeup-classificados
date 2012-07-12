@@ -1,0 +1,42 @@
+<% if not @ad.gallery.empty? %>
+	<div class="fe_ad_gallery">
+		<!-- "previous page" action -->
+		<a class="prev browse left"></a>
+
+		<!-- root element for scrollable -->
+		<div class="scrollable">   
+
+		   <!-- root element for the items -->
+			<div class="items">
+				<div>
+			    	<% @ad.gallery.each_with_index do |res, i| %>
+			    	<% if not i == 0 and i % 4 == 0 %>
+			    	  <div>
+			    	<% end %>
+			    	
+						<%= link_to ".." + res.link.url, { :rel => 'prettyPhoto[pp_gal]', :title => res.description, :class => 'fe_ad_gallery_item' } do 
+							image_tag res.link.url(:gallery)
+					  	end %>
+						<% if (i+1) % 4 == 0 %>
+							</div>
+						<% end %>
+					<% end -%>
+				<% if not @ad.gallery.count % 4 == 0 %>
+				  </div>
+				<% end %>
+			</div>
+
+		</div>
+
+		<!-- "next page" action -->
+		<a class="next browse right"></a>				
+	</div>
+<% end %>
+
+<% if @user %>
+  <% if @ad.user_id == @user.id %>
+    <%= link_to I18n.t("ad.gallery_manager"), gallery_manager_ad_path(@ad), :remote => true, :id => "gallery_manager_link" %>
+    <div id="gallery_manager_dialog"></div>
+  <% end %>
+<% end %>
+
